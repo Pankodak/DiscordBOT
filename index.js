@@ -278,6 +278,8 @@ if(command === "cat") {
   
   
   if(command === "purge") {
+	        if(!message.member.hasPermission("MANAGE_MESSAGES"))
+      return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
 
     const deleteCount = parseInt(args[0], 10);
     
