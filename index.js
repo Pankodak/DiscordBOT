@@ -113,7 +113,7 @@ if(command === "info") {
     }
 
     if(command === "vote") {
-	if(!message.member.hasPermission("Administrator"))
+	if(!message.member.hasPermission("MANAGE_MESSAGES"))
    return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
   let question = args.slice(0).join(" ");
 
