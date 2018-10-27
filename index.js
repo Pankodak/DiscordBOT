@@ -164,7 +164,7 @@ if(command === "cat") {
 }
   
   if(command === "say") {
-	  if(!message.member.hasPermission("Administrator"))
+	  if(!message.member.hasPermission("MANAGE_MESSAGES"))
       return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
     const sayMessage = args.join(" ");
     message.delete().catch(O_o=>{}); 
