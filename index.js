@@ -115,6 +115,7 @@ if(command === "info") {
     if(command === "vote") {
 	if(!message.member.hasPermission("MANAGE_MESSAGES"))
    return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
+	      message.delete().catch(O_o=>{});
   let question = args.slice(0).join(" ");
 
   if (args.length === 0)
