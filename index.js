@@ -328,7 +328,7 @@ if(command === "cat") {
 if(command === "tempmute"){
 
   //!tempmute @user 1s/m/h/d
-		if(!message.member.hasPermission("KICK_MEMBERS"))
+		if(!message.member.hasPermission("BAN_MEMBERS"))
    return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
 
   let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
