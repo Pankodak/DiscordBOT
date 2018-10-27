@@ -328,8 +328,7 @@ if(command === "cat") {
 if(command === "tempmute"){
 
   //!tempmute @user 1s/m/h/d
-		if(!message.member.hasPermission("BAN_MEMBERS"))
-   return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
+
 
   let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if(!tomute) return message.reply("Couldn't find user.");
@@ -354,6 +353,8 @@ if(command === "tempmute"){
     }
   }
   //end of create role
+			if(!message.member.hasPermission("BAN_MEMBERS"))
+   return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
   let mutetime = args[1];
   if(!mutetime) return message.reply("You didn't specify a time!");
 
