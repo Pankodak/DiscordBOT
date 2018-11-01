@@ -68,7 +68,7 @@ client.on("message", async message => {
 		.addField("!purge <od 2 do 100>", "usuwa od 2 do 100 wiadomości nie starszych niż 14 dni")
 		.addField("tempmute <1s/m/h/d>", "wycisza użytkownika na serwerze na określony czas")
 		.addBlankField(true)
-		.addField("**Ogólne**", "Komendy dla administratorów")
+		.addField("**Ogólne**", "Komendy dla wszystkich")
 		.addField("!info", "informacje o użytkowniku")
 		.addField("!serverinfo", "informacje o serwerze")
 		.addField("!forum", "link do naszego forum")
