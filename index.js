@@ -5,19 +5,22 @@ const ms = require("ms");
 const superagent = require("superagent");
 const moment = require("moment");
 
+
+
+
 client.on("ready", () => {
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`); 
-    client.user.setActivity("!help !forum", {type: "WATCHING"});
+    client.user.setActivity("http://arisonarp.pl | !help !serwer", {type: "WATCHING"});
 });
 
 client.on("guildCreate", guild => {
   console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    client.user.setActivity("!help !forum", {type: "WATCHING"});
+    client.user.setActivity("!help !serwer", {type: "WATCHING"});
 });
 
 client.on("guildDelete", guild => {
   console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-    client.user.setActivity("!help !forum", {type: "WATCHING"});
+    client.user.setActivity("!help !serwer", {type: "WATCHING"});
 });
 
 
@@ -42,22 +45,12 @@ client.on("message", async message => {
     m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
   }
   
-  
-  if(command === "forum") {
-    let bicon = message.guild.iconURL;
-    let forumembed = new Discord.RichEmbed()
-	  .setThumbnail(bicon)
-	  .addField("**Link do forum**", "http://arisonarp.pl")
-	  .setColor('RANDOM')
-	  .setTimestamp();
-	      message.channel.send(forumembed);
-  }
 	  
   
   
   if(command === "help") {
 	  
-    let bicon = message.author.displayAvatarURL
+    let bicon = message.guild.iconURL;
     let botembed = new Discord.RichEmbed()
         .setThumbnail(bicon)
         .addField("**Admin/Mods**", "Komendy dla administratorów")
@@ -68,10 +61,10 @@ client.on("message", async message => {
 		.addField("!purge <od 2 do 100>", "usuwa od 2 do 100 wiadomości nie starszych niż 14 dni")
 		.addField("tempmute <1s/m/h/d>", "wycisza użytkownika na serwerze na określony czas")
 		.addBlankField(true)
-		.addField("**Ogólne**", "Komendy dla wszystkich")
+		.addField("**Ogólne**", "Komendy dla administratorów")
 		.addField("!info", "informacje o użytkowniku")
 		.addField("!serverinfo", "informacje o serwerze")
-		.addField("!forum", "link do naszego forum")
+		.addField("!serwer", "informacje o naszym serwerze")
 		.addField("!dog", "losowe zdjęcia psa")
 		.addField("!cat", "losowe zdjęcia kota")
 		.addField("!botinfo", "informacje o BOCie")
@@ -81,7 +74,8 @@ client.on("message", async message => {
 		
         .setFooter(`Na prośbę : ${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL)
         .setColor('RANDOM')
-		.setTimestamp();
+    .setTimestamp();
+      message.delete().catch(O_o=>{});
 
     message.channel.send(botembed);
 }
@@ -111,11 +105,27 @@ if(command === "info") {
 	    .setTimestamp();
      message.channel.send({embed});
     }
+    if(command === "serwer"){
+
+  let sicon = message.guild.iconURL;
+  let serwerembed = new Discord.RichEmbed()
+  .setDescription("__**[PL] [BETA] ArisonaRP | #1 | Whitelist: www.ArisonaRP.PL**__")
+  .setColor("RANDOM")
+  .setThumbnail(sicon)
+  .addField("**Nazwa Serwera**", "[PL] [BETA] ArisonaRP | #1 | Whitelist: www.ArisonaRP.PL")
+  .addField("**Adres IP**", "207.180.222.64:30001")
+  .addField("**Forum**", "http://arisonarp.pl")
+  .addField("**Połącz się z serwerem**", "<fivem://connect/207.180.222.64:30001> \n __**Kliknij tylko raz!**__")
+  .setTimestamp();
+  message.delete().catch(O_o=>{});
+
+  message.channel.send(serwerembed);
+}
 
     if(command === "vote") {
 	if(!message.member.hasPermission("MANAGE_MESSAGES"))
    return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
-	      message.delete().catch(O_o=>{});
+  message.delete().catch(O_o=>{}); 
   let question = args.slice(0).join(" ");
 
   if (args.length === 0)
@@ -165,7 +175,7 @@ if(command === "cat") {
 }
   
   if(command === "say") {
-	  if(!message.member.hasPermission("MANAGE_MESSAGES"))
+	  if(!message.member.hasPermission("Administrator"))
       return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
     const sayMessage = args.join(" ");
     message.delete().catch(O_o=>{}); 
@@ -279,18 +289,15 @@ if(command === "cat") {
   
   
   if(command === "purge") {
-	        if(!message.member.hasPermission("MANAGE_MESSAGES"))
-      return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
+    if(!message.member.hasPermission("MANAGE_MESSAGES")) return errors.noPerms(message, "MANAGE_MESSAGES");
 
-    const deleteCount = parseInt(args[0], 10);
-    
-    if(!deleteCount || deleteCount < 2 || deleteCount > 100)
-      return message.reply("Podaj liczbę od 2 do 100 dla liczby wiadomości do usunięcia");
-    
-    const fetched = await message.channel.fetchMessages({limit: deleteCount});
-    message.channel.bulkDelete(fetched)
-      .catch(error => message.reply(`Nie można usunąć wiadomości ponieważ: ${error}`));
-  }
+  if(!args[0]) return message.channel.send("Nie masz dostępu do tej komendy");
+
+  message.channel.bulkDelete(args[0]).then(() => {
+
+    message.channel.send(`🔎Wyczyszczono ${args[0]} wiadomości🔎.`).then(msg => msg.delete(5000));
+  });
+}
   // BOTY
     function checkBots(guild) {
     let botCount = 0; // This is value that we will return
@@ -329,10 +336,9 @@ if(command === "tempmute"){
 
   //!tempmute @user 1s/m/h/d
 
-
   let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if(!tomute) return message.reply("Couldn't find user.");
-  if(tomute.hasPermission("MANAGE_MESSAGES")) return message.reply("Can't mute them!");
+  if(tomute.hasPermission("Administrator")) return message.reply("Can't mute them!");
   let muterole = message.guild.roles.find(`name`, "muted");
   //start of create role
   if(!muterole){
@@ -353,8 +359,6 @@ if(command === "tempmute"){
     }
   }
   //end of create role
-			if(!message.member.hasPermission("BAN_MEMBERS"))
-   return message.reply("Niestety, nie masz uprawnień do korzystania z tego!");
   let mutetime = args[1];
   if(!mutetime) return message.reply("You didn't specify a time!");
 
