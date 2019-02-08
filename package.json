@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Pankodak",
+  "license": "GNU-GPL",
   "dependencies": {
     "discord.js": "^11.4.2",
     "moment": "^2.22.2",
