@@ -82,16 +82,13 @@ client.on("message", async message => {
 if(command === "info") {
 	
 	let user;
-	// If the user mentions someone, display their stats. If they just run userinfo without mentions, it will show their own stats.
     if (message.mentions.users.first()) {
       user = message.mentions.users.first();
     } else {
         user = message.author;
     }
-	// Define the member of a guild.
     const member = message.guild.member(user);
 	
-	//Discord rich embed
     const embed = new Discord.RichEmbed()
 		.setColor('RANDOM')
 		.setThumbnail(user.avatarURL)
@@ -105,22 +102,6 @@ if(command === "info") {
 	    .setTimestamp();
      message.channel.send({embed});
     }
-    if(command === "serwer"){
-
-  let sicon = message.guild.iconURL;
-  let serwerembed = new Discord.RichEmbed()
-  .setDescription("__**[PL] [BETA] ArisonaRP | #1 | Whitelist: www.ArisonaRP.PL**__")
-  .setColor("RANDOM")
-  .setThumbnail(sicon)
-  .addField("**Nazwa Serwera**", "[PL] [BETA] ArisonaRP | #1 | Whitelist: www.ArisonaRP.PL")
-  .addField("**Adres IP**", "207.180.222.64:30001")
-  .addField("**Forum**", "http://arisonarp.pl")
-  .addField("**Połącz się z serwerem**", "<fivem://connect/207.180.222.64:30001> \n __**Kliknij tylko raz!**__")
-  .setTimestamp();
-  message.delete().catch(O_o=>{});
-
-  message.channel.send(serwerembed);
-}
 
     if(command === "vote") {
 	if(!message.member.hasPermission("MANAGE_MESSAGES"))
@@ -219,7 +200,6 @@ if(command === "cat") {
 	  return message.channel.send(serverembed);
   }
   
-  //	.addField(":closed_lock_with_key:Liczba Serwerów Oglądanych Przez Bota:closed_lock_with_key:", message.client.guilds.size, true)//
   if(command === "kpn") {
 	    
     let Kamień2 = ["Papier! Ja wygrałem!", "Nożyce! Ty wygrałeś!"]
@@ -298,11 +278,10 @@ if(command === "cat") {
     message.channel.send(`🔎Wyczyszczono ${args[0]} wiadomości🔎.`).then(msg => msg.delete(5000));
   });
 }
-  // BOTY
     function checkBots(guild) {
     let botCount = 0; // This is value that we will return
-    guild.members.forEach(member => { // We are executing this code for every user that is in guild
-      if(member.user.bot) botCount++; // If user is a bot, add 1 to botCount value
+    guild.members.forEach(member => { 
+      if(member.user.bot) botCount++; 
     });
     return botCount; // Return amount of bots
   }
@@ -334,13 +313,11 @@ if(command === "cat") {
   }
 if(command === "tempmute"){
 
-  //!tempmute @user 1s/m/h/d
 
   let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   if(!tomute) return message.reply("Couldn't find user.");
   if(tomute.hasPermission("Administrator")) return message.reply("Can't mute them!");
   let muterole = message.guild.roles.find(`name`, "muted");
-  //start of create role
   if(!muterole){
     try{
       muterole = await message.guild.createRole({
@@ -358,7 +335,6 @@ if(command === "tempmute"){
       console.log(e.stack);
     }
   }
-  //end of create role
   let mutetime = args[1];
   if(!mutetime) return message.reply("You didn't specify a time!");
 
@@ -371,7 +347,6 @@ if(command === "tempmute"){
   }, ms(mutetime));
 
 
-//end of module
 }
 
   
@@ -390,11 +365,11 @@ if(command === "tempmute"){
         let image = user.displayAvatarURL; // Get image URL
         let embed = new Discord.RichEmbed()
             .setAuthor(`${user.username}#${user.discriminator}`) // Set author
-            .setColor("RANDOM") // Set color (If you don't have ideas or preference, use RANDOM for random colors)
-            .setImage(image) // Set image in embed
+            .setColor("RANDOM")
+            .setImage(image)
 			.setFooter(`Na prośbę : ${message.author.username}#${message.author.discriminator}`, message.author.displayAvatarURL)
 			.setTimestamp();
-        message.channel.send(embed); // Send embed
+        message.channel.send(embed);
 		    message.delete().catch(O_o=>{}); 
     }
 }
